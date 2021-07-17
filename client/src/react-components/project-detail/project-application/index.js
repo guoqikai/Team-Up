@@ -103,19 +103,19 @@ class ProjectApplication extends React.Component {
     return (
       <>
         <h2>Team Members: </h2>
-        <div>
-          {Object.keys(filledRoles).length == 0 ? (
-            <h3>No team memebr yet.</h3>
-          ) : (
-            Object.keys(filledRoles).map((uid) => {
-              return (
-                <Link to={`/user-detail/${uid}`}>
-                  <ContributorCard userId={uid} roles={filledRoles[uid]} />
-                </Link>
-              );
-            })
-          )}
-        </div>
+
+        {Object.keys(filledRoles).length == 0 ? (
+          <h3>No team memebr yet.</h3>
+        ) : (
+          <div className="project-application-role">
+            {Object.keys(filledRoles).map((uid) => (
+              <Link to={`/user-detail/${uid}`}>
+                <ContributorCard userId={uid} roles={filledRoles[uid]} />
+              </Link>
+            ))}
+          </div>
+        )}
+
         <div>
           <h2>Roles open to apply:</h2>
           {editable && (

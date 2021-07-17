@@ -1,3 +1,12 @@
+.project-application-role {
+  display: grid;
+  grid-column-gap: 20px;
+  grid-row-gap: 20px;
+  grid-template-columns: repeat(auto-fill, 270px);
+  grid-auto-flow: row;
+  margin-left: 20px;
+}
+
 .project-application-add-role {
   margin-bottom: 10px;
 }

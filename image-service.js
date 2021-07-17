@@ -2,9 +2,9 @@ const { Image } = require("./models/image");
 const cloudinary = require("cloudinary");
 
 cloudinary.config({
-  cloud_name: "drnbkt0la",
-  api_key: "499258696217281",
-  api_secret: "8Ttxe3HvSXjSe9kjy3t97tKi11U",
+  cloud_name: "dk9m0hgxp",
+  api_key: "474467435976891",
+  api_secret: "P6vdoEG6yOuTSRFWyoLaW61HNBQ",
 });
 
 
