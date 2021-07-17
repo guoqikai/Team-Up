@@ -1,0 +1,41 @@
+#logoImg {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 10%;
+  margin-bottom: 5%;
+  width: 20%;
+  min-width: 240px;
+}
+
+#bts {
+  margin-top: 40px;
+}
+
+.login-button {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 29%;
+  min-width: 300px;
+  border-radius: 30px;
+  padding: 12px;
+  font-size: 20px;
+}
+
+.login-link {
+  margin-top: 30px;
+  color: #545cb6;
+  cursor: default;
+  font-size: 14px;
+}
+
+.login-link:hover {
+  text-decoration: underline;
+}
+
+#f-password {
+  text-align: center;
+}

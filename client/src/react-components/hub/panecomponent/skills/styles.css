@@ -1,0 +1,53 @@
+.skills-panecomponent {
+  display: inline-block;
+  width: 350px;
+  height: 140px;
+  border-bottom: 1px solid rgb(197, 197, 197);
+  cursor: pointer;
+  background-color: white;
+  box-shadow: 3px 0px 2px 0px rgba(0, 0, 0, 0.247);
+}
+
+.skills-panecomponent:hover {
+  transition: 0.2s ease-out;
+  background-color: rgb(236, 236, 236);
+}
+
+.skills-pane-image {
+  position: relative;
+  top: 10px;
+  left: 10px;
+  object-fit: cover;
+  height: 120px;
+  width: 120px;
+  box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.089);
+}
+
+#skills-pane-title {
+  position: relative;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  width: 200px;
+  height: 25px;
+  bottom: 120px;
+  left: 140px;
+  text-align: center;
+  font-weight: bold;
+  font-size: 18px;
+  box-sizing: border-box;
+}
+
+#skills-pane-description {
+  position: relative;
+  overflow: hidden;
+  word-wrap: break-word;
+  text-align: center;
+  bottom: 110px;
+  left: 140px;
+  width: 200px;
+  height: 70px;
+  font-size: 15px;
+  color: rgb(77, 77, 77);
+  box-sizing: border-box;
+}

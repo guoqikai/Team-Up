@@ -1,0 +1,109 @@
+.project-popup {
+  height: 550px;
+  width: 674px;
+  position: fixed;
+  z-index: 2;
+  background-color: rgb(241, 241, 241); /*change this later*/
+  top: 50%;
+  left: 50%;
+  margin-top: -300px;
+  margin-left: -337px;
+}
+
+.project-popup-title {
+  position: absolute;
+  top: 18px;
+  left: 18px;
+  font-size: 24px;
+  width: 620px;
+  height: 33px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  font-weight: bold;
+}
+
+.project-popup-likes-views {
+  position: absolute;
+  margin-top: 52px;
+  margin-left: 18px;
+  font-size: 11px;
+  color: gray;
+}
+
+.project-popup-bottom {
+  position: absolute;
+  height: 50px;
+  width: 100%;
+  bottom: 0;
+}
+
+.project-popup-team-view {
+  position: absolute;
+  height: 220px;
+  width: 400px;
+  bottom: 250px;
+  left: 256px;
+  background-color: none;
+  text-overflow: ellipsis;
+  box-sizing: border-box;
+  padding: 1% 2.5% 1% 2.5%;
+  overflow: auto;
+}
+
+.project-popup-image {
+  position: absolute;
+  height: 220px;
+  width: 220px;
+  left: 18px;
+  bottom: 250px;
+  object-fit: cover;
+  box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.089);
+}
+
+.project-popup-description {
+  position: absolute;
+  bottom: 68px;
+  height: 165px;
+  width: 628px;
+  margin-left: 18px;
+  text-overflow: ellipsis;
+  overflow-y: auto;
+  padding-left: 10px;
+}
+
+.project-popup-like {
+  position: absolute;
+  top: 5px;
+  width: 80px;
+  height: 30px;
+  right: 198px;
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.project-popup-liked {
+  position: absolute;
+  top: 5px;
+  width: 80px;
+  height: 30px;
+  right: 198px;
+  font-size: 15px;
+  font-weight: bold;
+  background-color: #545cb6;
+}
+
+.project-popup-detail {
+  position: absolute;
+  top: 5px;
+  height: 30px;
+  width: 170px;
+  right: 18px;
+  font-size: 15px;
+  font-weight: bold;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0}
+  to   { opacity: 0.72}
+}

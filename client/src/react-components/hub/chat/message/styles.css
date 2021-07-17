@@ -1,0 +1,39 @@
+.chat-message {
+  display: block;
+  width: 98%;
+  margin-top: 1%;
+  margin-right: 1%;
+  margin-left: 1%;
+  float: right;
+}
+
+.chat-message-name {
+  display: block;
+  font-size: 80%;
+  width: 100%;
+  box-sizing: border-box;
+  text-align: left;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.chat-message-name-outgoing {
+  text-align: right;
+}
+
+.chat-message-content {
+  background-color: #ffffff;
+  max-width: 75%;
+  border-radius: 20px 20px 20px 0px;
+  border-width: 2px;
+  box-sizing: border-box;
+  border-color: #585b73;
+  border-style: solid;
+  padding: 5px 5px 5px 5px;
+  float: left;
+}
+
+.chat-message-content-outgoing {
+  float: right;
+  border-radius: 20px 20px 0px 20px;
+}

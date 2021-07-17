@@ -1,0 +1,4 @@
+.DS_Store
+.Rhistory
+mongo-data/
+node_modules/

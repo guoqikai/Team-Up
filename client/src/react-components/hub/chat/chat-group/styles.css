@@ -1,0 +1,47 @@
+.chat-groups {
+  width: 150px;
+  height: 100%;
+  background-color: #a2a4b1;
+  position: absolute;
+  overflow-y: auto;
+}
+
+.chat-group {
+  height: 15%;
+  width: 100%;
+  background-color: #838594;
+  box-sizing: border-box;
+  padding: 10px;
+  border-bottom: 1px solid #a2a4b1;
+}
+
+.chat-group:hover {
+  background-color: #545cb6;
+}
+
+.chat-group-selected {
+   height: 15%;
+  width: 100%;
+  background-color: #545cb6;
+  box-sizing: border-box;
+  padding: 10px;
+  border-bottom: 1px solid #a2a4b1;
+}
+
+.chat-group-name {
+  font-size: 15px;
+  font-weight: bold;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.chat-group-preview {
+  font-size: 13px;
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-weight: 100;
+  color: #ffffff;
+}

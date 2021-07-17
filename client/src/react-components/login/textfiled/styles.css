@@ -1,0 +1,77 @@
+.textfield {
+    margin-top: 20px;
+    margin-bottom: 0px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    border: none;
+    box-shadow: 0 1px 0 0 #8f97ec;
+    width: 30%;
+    min-width: 320px;
+    height: 35px;
+    transition: 0.2s ease-out;
+    font-size: 15px;
+    outline: none;
+    background: none;
+}
+
+.textfield:hover {
+    box-shadow: 0 2px 0 0  #222a7e;
+}
+
+.textfield:focus {
+    box-shadow: 0 2px 0 0  #222a7e;
+}
+
+input[class="textfield"]::-webkit-input-placeholder { /* Edge */
+    color: #545cb6;
+}
+  
+input[class="textfield"]:-ms-input-placeholder { /* Internet Explorer */
+    color: #545cb6;
+}
+  
+input[class="textfield"]::placeholder {
+    color: #545cb6;
+}
+
+.textfield-invalid {
+    margin-top: 20px;
+    margin-bottom: 0px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    border: none;
+    box-shadow: 0 2px 0 0 red;
+    width: 30%;
+    min-width: 320px;
+    height: 35px;
+    transition: 0.2s ease-out;
+    font-size: 15px;
+    outline: none;
+    background: none;
+}
+
+input[class="textfield-invalid"]::-webkit-input-placeholder { /* Edge */
+    color: red;
+}
+  
+input[class="textfield-invalid"]:-ms-input-placeholder { /* Internet Explorer */
+    color: red;
+}
+  
+input[class="textfield-invalid"]::placeholder {
+    color: red;
+}
+
+.msg {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    width: 29%;
+    min-width: 310px;
+    color: red;
+    font-size: 12px;
+}

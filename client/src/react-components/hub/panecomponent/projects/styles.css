@@ -1,0 +1,69 @@
+.project-panecomponent {
+  display: inline-block;
+  width: 100%;
+  height: 200px;
+  border-bottom: 1px solid rgb(197, 197, 197);
+  cursor: pointer;
+}
+
+.project-pane-image {
+  display: inline-block;
+  margin-left: 25px;
+  margin-top: 25px;
+  object-fit: cover;
+  height: 150px;
+  width: 150px;
+  box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.089);
+}
+
+#project-pane-title {
+  display: inline-block;
+  position: absolute;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  width: 57%;
+  height: 22px;
+  margin-top: 16px;
+  margin-left: 20px;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+#project-pane-like-views {
+  display: inline-block;
+  position: absolute;
+  margin-top: 38px;
+  margin-left: 20px;
+  font-size: 11px;
+  color: gray;
+}
+
+#project-pane-opening {
+  display: inline-block;
+  position: absolute;
+  overflow: hidden;
+  margin-top: 60px;
+  margin-left: 20px;
+  font-size: 15px;
+  color: white;
+  padding-right: 7px;
+  padding-left: 7px;
+  padding-bottom: 3px;
+  background: #545cb6;
+  box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.247);
+}
+
+#project-pane-description {
+  display: inline-block;
+  position: absolute;
+  overflow: hidden;
+  word-wrap: break-word;
+  margin-top: 100px;
+  margin-left: 20px;
+  width: 57%;
+  height: 70px;
+  vertical-align: middle;
+  font-size: 15px;
+  color: rgb(77, 77, 77);
+}

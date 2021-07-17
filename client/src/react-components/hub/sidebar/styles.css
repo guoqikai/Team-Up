@@ -1,0 +1,83 @@
+.sidebar {
+  width: 15%;
+  min-width: 160px;
+  height: 100%;
+  min-height: 600px;
+  box-shadow: 4px 0 10px 0 rgba(0, 0, 0, 0.16);
+  background-color: #a2a4b1;
+  position: fixed;
+  top: 0;
+  left: 0;
+  overflow-x: hidden;
+  z-index: 1;
+}
+
+.sidebar-logo {
+  width: 93%;
+  height: 65.6px;
+  display: block;
+  margin-top: 10px;
+  margin-left: auto;
+  margin-right: auto;
+  cursor: pointer;
+}
+
+.sidebar-profile-pic {
+  width: 92px;
+  height: 92px;
+  border-radius: 50%;
+  display: block;
+  margin-top: 70px;
+  margin-left: auto;
+  margin-right: auto;
+  background: white;
+}
+
+.sidebar-login {
+  text-align: center;
+  cursor: pointer;
+  color: #5f5f5f;
+  font-size: 12px;
+}
+
+.sidebar-login:hover {
+  text-decoration: underline;
+}
+
+.sidebar-profile-name {
+  text-align: center;
+  font-weight: bold;
+  cursor: default;
+  margin-top: 10px;
+}
+
+.sidebar-menu {
+  position: absolute;
+  bottom: 40px;
+  width: 100%;
+  text-align: center;
+  font-weight: bold;
+  font-size: 22px;
+  color: #3f4046;
+}
+
+.sidebar-new-message {
+  height: 18px;
+  width: 18px;
+  font-size: 13px;
+  background-color: #222a7e;
+  border-radius: 50%;
+  display: inline-block;
+  margin-left: 5px;
+  color: white;
+}
+
+.sidebar-option {
+  margin-top: 25px;
+  cursor: default;
+}
+
+.sidebar-option:hover {
+  color: #545cb6;
+}
+

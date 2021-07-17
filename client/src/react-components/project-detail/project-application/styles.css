@@ -1,0 +1,35 @@
+.project-application-add-role {
+  margin-bottom: 10px;
+}
+
+.project-application-apply-role {
+  margin-bottom: 10px;
+  margin-left: 20px;
+}
+
+.project-application-button {
+  margin-left: 6px;
+  height: 20px;
+}
+
+.project-application-role-applied {
+  color: gray;
+}
+
+.project-application-view-container {
+  margin-left: 20px;
+}
+
+.project-application-view {
+  height: 60px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.project-application-profile-pic {
+  border-radius: 50%;
+  height: 100%;
+  margin-left: 20px;
+  margin-right: 10px;
+}

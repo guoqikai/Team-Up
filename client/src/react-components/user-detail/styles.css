@@ -1,0 +1,31 @@
+.user-profile-pane {
+    width: 80%;
+    height: 100%;
+    margin-left: 20%;
+    box-sizing: border-box;
+    position: absolute;
+    background-color: #dadae0;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.user-profile-info-bio {
+    width: 70%;
+    padding: 1%;
+    box-sizing: border-box;
+    display: block;
+}
+
+.user-profile-bio-text-area {
+    width: 100%;
+    height: 350px;
+    box-sizing: border-box;
+    background-color: transparent;
+    border-style: none;
+}
+
+.user-profile-projects {
+    width: 56%;
+    box-sizing: border-box;
+    display: block;
+}

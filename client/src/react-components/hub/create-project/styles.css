@@ -1,0 +1,100 @@
+.create-project-window {
+  width: 80vw;
+  height: 100%;
+  margin-left: 17%;
+  box-sizing: border-box;
+}
+
+.create-project-column {
+  display: inline-block;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: left;
+}
+
+.create-project-header {
+  height: 30%;
+  width: 100%;
+}
+
+.create-project-contents {
+  height: 30%;
+  width: 100%;
+  margin-top: 40px;
+}
+
+
+.create-project-name {
+  width: 700px;
+  height: 34px;
+  font-size: 30px;
+  margin-top: 40px;
+}
+
+.create-project-description {
+  width: 700px;
+  height: 300px;
+  font-size: 20px;
+}
+
+.create-proejct-image {
+  display: inline-block;
+  width: 350px;
+  height: 350px;
+}
+
+.create-project-create-positions {
+  display: inline-block;
+  width: 350px;
+  height: 350px;
+}
+
+.create-project-positions {
+  display: inline-block;
+  width: 354px;
+  height: 290px;
+  overflow:auto;
+  position: relative;
+  background-color: rgb(192, 192, 192);
+}
+
+.create-project-input-positions {
+  font-size: 15px;
+  width: 350px;
+  height: 30px;
+}
+
+.add-teammates {
+  width: 300px;
+  height: 35px;
+  font-size: 25px;
+  font-weight: bold;
+  letter-spacing: normal;
+  text-align: left;
+  margin-left: 117px;
+  margin-top: 52px;
+  color: #707070;
+}
+
+.create-project-curr-required-positions-elements {
+  font-size: 25px;
+  letter-spacing: normal;
+  text-align: center;
+  background-color: #ffffff;
+  border: 1px solid #3f3f3f;
+  color: #3f3f3f;
+}
+
+.create-project-image-preview {
+  width: 300px;
+  height: 300px;
+  object-fit: cover;
+  border: solid 1px #707070;
+}
+
+.create-project-button {
+  margin-top: 20px;
+  font-size: 40px;
+  width: 700px;
+  margin-bottom: 40px;
+}

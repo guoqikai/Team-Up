@@ -1,0 +1,30 @@
+.background {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  opacity: 0.72;
+  z-index: 1;
+  background: black;
+  animation: fadeIn 0.2s;
+}
+
+.popup-close {
+  position: absolute;
+  right: 12px;
+  color: rgb(180, 180, 180);
+  font-size: 40px;
+  cursor: default;
+  user-select: none;
+  font-family: Arial, sans-serif;
+}
+
+.popup-close:hover {
+  color: rgb(85, 85, 85);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0}
+  to   { opacity: 0.72}
+}

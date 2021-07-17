@@ -1,0 +1,58 @@
+.people-popup {
+  height: 595px;
+  width: 370px;
+  position: fixed;
+  z-index: 2;
+  background-color: rgb(241, 241, 241); /*change this later*/
+  top: 50%;
+  left: 50%;
+  margin-top: -300px;
+  margin-left: -200px;
+}
+
+.people-popup-img {
+  position: relative;
+  top: 40px;
+  left: 95px;
+  object-fit: cover;
+  border-radius: 150px;
+  height: 180px;
+  width: 180px;
+}
+
+.people-popup-name {
+  position: relative;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  width: 80%;
+  height: 30px;
+  top: 60px;
+  left: 10%;
+  text-align: center;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.people-popup-bio {
+  position: relative;
+  overflow-y: scroll;
+  text-align: center;
+  top: 72px;
+  left: 10%;
+  width: 80%;
+  height: 200px;
+  font-size: 15px;
+  color: rgb(77, 77, 77);
+}
+
+.people-popup-button {
+  position: relative;
+  margin-top: 10px;
+  top: 75px;
+  left: 10%;
+  width: 80%;
+  height: 35px;
+  font-size: 15px;
+  font-weight: bold;
+}
