@@ -601,7 +601,7 @@ app.post("/api/role", authenticate, (req, res) => {
 });
 
 app.patch("/api/role", authenticate, (req, res) => {
-  if (!req.body.userId || !req.body.projectId || !req.body._id) {
+  if (!req.body.projectId || !req.body._id) {
     res.status(400).send();
     return;
   }
@@ -610,7 +610,7 @@ app.patch("/api/role", authenticate, (req, res) => {
       if (
         !project ||
         !(
-          project.owner === req.user._id ||
+          project.owner.equals(req.user._id) ||
           project.admins.includes(req.user._id)
         )
       )
@@ -619,7 +619,7 @@ app.patch("/api/role", authenticate, (req, res) => {
         { _id: req.body._id, projectId: req.body.projectId },
         req.body
       ).then((role) => {
-        if (project.group) {
+        if (project.group && req.body.userId) {
           addUserToGroup(req.body.userId, project.group).catch((error) =>
             console.log(error)
           );
@@ -638,7 +638,7 @@ app.delete("/api/role", authenticate, (req, res) => {
     .then((project) => {
       if (
         !project ||
-        (req.user._id !== req.body.userId && project.owner !== req.user._id)
+        (req.user._id !== req.body.userId && !project.owner.equals(req.user._id))
       )
         return res.status(403).send();
       deleteRole({ _id: req.body._id }).then((role) => {
