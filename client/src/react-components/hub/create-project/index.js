@@ -97,7 +97,7 @@ class CreateProject extends React.Component {
           </div>
           <div className="create-project-team-image">
             <div className="create-proejct-image">
-            <span>project image:</span>
+            <span>Project Image:</span>
             <input type="file" accept="image/*" onChange={this.handleImgChange} />
               <div>
                 <img

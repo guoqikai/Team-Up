@@ -1,7 +1,5 @@
-"use strict";
-
 const mongoose = require('mongoose')
-const ObjectId = require('mongodb').ObjectID;
+const ObjectId = require('mongodb').ObjectId;
 
 const MessageGroupSchema = new mongoose.Schema({
     name: {

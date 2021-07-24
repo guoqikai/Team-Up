@@ -33,7 +33,7 @@ function isAdminOfProject(pid, uid) {
     findProjectById(pid)
       .then((project) =>
         resolve(
-          project && (project.owner === uid || project.admins.includes(uid))
+          project && (project.owner.equals(uid) || project.admins.includes(uid))
         )
       )
       .catch((err) => reject(err))
