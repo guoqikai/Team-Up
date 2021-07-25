@@ -28,16 +28,8 @@ function deleteProject(pid, uid) {
   return Project.findOneAndDelete(cond).exec();
 }
 
-function isAdminOfProject(pid, uid) {
-  return new Promise((resolve, reject) =>
-    findProjectById(pid)
-      .then((project) =>
-        resolve(
-          project && (project.owner.equals(uid) || project.admins.includes(uid))
-        )
-      )
-      .catch((err) => reject(err))
-  );
+function canEditProject(project, uid) {
+  return project && (project.owner.equals(uid) || project.admins.includes(uid))      
 }
 
 function findProjectById(id) {
@@ -60,7 +52,7 @@ module.exports = {
   updateProject,
   createProject,
   deleteProject,
-  isAdminOfProject,
+  canEditProject,
   findProjectById,
   findProjects,
   incrementViews,

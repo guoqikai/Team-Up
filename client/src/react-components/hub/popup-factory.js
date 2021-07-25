@@ -20,6 +20,7 @@ function createPopup(type, detail, onClick) {
 }
 
 function createPaneComponent(type, dataModel, onClick) {
+  if (!onClick) onClick = () => {};
   if (type === "Projects") {
     return (
       <ProjectsPaneComponent

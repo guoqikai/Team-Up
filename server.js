@@ -27,7 +27,7 @@ const {
   updateProject,
   createProject,
   deleteProject,
-  isAdminOfProject,
+  canEditProject,
   findProjectById,
   findProjects,
   incrementViews,
@@ -45,7 +45,8 @@ const {
 const {
   addRoleToProject,
   applyToRole,
-  updateRole,
+  acceptRole,
+  rejectRole,
   deleteRole,
   deleteProjectRoles,
   deleteUserProjectRoles,
@@ -522,8 +523,10 @@ app.get("/api/project/can-edit/:id", getCurrentUserInfo, (req, res) => {
   if (!req.session || !req.session.user) {
     res.status(403).send("Unauthorized");
   } else {
-    isAdminOfProject(projectId, req.session.user)
-      .then((isAdmin) => res.send({ canEdit: isAdmin }))
+    findProjectById(projectId)
+      .then((project) =>
+        res.send({ canEdit: canEditProject(project, req.session.user) })
+      )
       .catch((error) => {
         console.log(error);
         res.status(500).send();
@@ -592,48 +595,57 @@ app.get("/api/my-project", authenticate, (req, res) => {
 });
 
 app.post("/api/role", authenticate, (req, res) => {
-  isAdminOfProject(req.body.projectId, req.user._id)
-    .then((isAdmin) => {
-      if (isAdmin)
+  findProjectById(req.body.projectId)
+    .then((project) => {
+      if (canEditProject(project, req.user._id))
         return addRoleToProject(req.body.projectId, req.body.title).then(
           (role) => res.send(role)
         );
+      res.status(403).send();
     })
     .catch((error) => {
-      res.status(403).send();
+      console.log(error);
+      res.status(500).send();
     });
 });
 
-app.patch("/api/role", authenticate, (req, res) => {
-  if (!req.body.projectId || !req.body._id) {
+app.post("/api/accept-role", authenticate, (req, res) => {
+  if (!req.body.projectId || !req.body._id || !req.body.acceptUserId) {
     res.status(400).send();
     return;
   }
   findProjectById(req.body.projectId)
     .then((project) => {
-      if (
-        !project ||
-        !(
-          project.owner.equals(req.user._id) ||
-          project.admins.includes(req.user._id)
-        )
-      )
-        return res.status(403).send();
-      updateRole(
-        { _id: req.body._id, projectId: req.body.projectId },
-        req.body
-      ).then((role) => {
+      if (!canEditProject(project, req.user._id)) return res.status(403).send();
+      acceptRole(req.body._id, req.body.acceptUserId).then((role) => {
+        if (!role) return res.status(400).send();
         if (project.group && req.body.userId) {
           addUserToGroup(req.body.userId, project.group).catch((error) =>
             console.log(error)
           );
         }
-        res.send(role);
+        res.send();
       });
     })
     .catch((error) => {
       console.log(error);
-      res.status(403).send();
+      res.status(500).send();
+    });
+});
+
+app.post("/api/reject-role", authenticate, (req, res) => {
+  if (!req.body.projectId || !req.body._id || !req.body.rejectUserId) {
+    res.status(400).send();
+    return;
+  }
+  findProjectById(req.body.projectId)
+    .then((project) => {
+      if (!canEditProject(project, req.user._id)) return res.status(403).send();
+      rejectRole(req.body._id, req.body.rejectUserId).then(() => res.send());
+    })
+    .catch((error) => {
+      console.log(error);
+      res.status(500).send();
     });
 });
 
@@ -641,24 +653,27 @@ app.delete("/api/role", authenticate, (req, res) => {
   findProjectById(req.body.projectId)
     .then((project) => {
       if (
-        !project ||
-        (req.user._id !== req.body.userId &&
-          !project.owner.equals(req.user._id) &&
-          !project.admins.includes(req.user._id))
+        !canEditProject(project, req.user._id) &&
+        req.user._id !== req.body.userId
       )
         return res.status(403).send();
-      deleteRole({ _id: req.body._id, projectId: project._id }).then((role) => {
+      deleteRole({
+        _id: req.body._id,
+        projectId: project._id,
+        userId: req.body.userId,
+      }).then((role) => {
         if (project.group) {
           findRoles({ userId: role.userId, projectId: req.body.projectId })
-          .then((roles) => {
-            if (
-              roles.length === 0 &&
-              project.owner !== role.userId &&
-              !project.admins.includes(role.userId)
-            ) {
-              return removeUserFromGroup(role.userId, project.group);
-            }
-          }).catch((error) => console.log(error));
+            .then((roles) => {
+              if (
+                roles.length === 0 &&
+                project.owner !== role.userId &&
+                !project.admins.includes(role.userId)
+              ) {
+                return removeUserFromGroup(role.userId, project.group);
+              }
+            })
+            .catch((error) => console.log(error));
           res.send();
         }
       });

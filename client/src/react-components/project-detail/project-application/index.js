@@ -90,7 +90,6 @@ function ApplyViewCard({ data, role, reload }) {
             role.projectId,
             role._id,
             uid,
-            role.applicants,
             () => reload()
           )
         }
@@ -125,7 +124,7 @@ class ProjectApplication extends React.Component {
         ) : (
           <div className="project-application-role">
             {Object.keys(filledRoles).map((uid) => (
-              <Link to={`/user-detail/${uid}`}>
+              <Link to={`/user-detail/${uid}`} key={uid}>
                 <ContributorCard userId={uid} roles={filledRoles[uid]} />
               </Link>
             ))}
@@ -160,6 +159,7 @@ class ProjectApplication extends React.Component {
           {openRoles.length > 0 ? (
             openRoles.map((role) => (
               <ApplyCard
+                key={role._id}
                 projectId={projectId}
                 userId={userId}
                 role={role}
@@ -177,7 +177,7 @@ class ProjectApplication extends React.Component {
           <>
             <h2>Applications:</h2>
             {openRoles.map((role) => (
-              <div className="project-application-indent">
+              <div className="project-application-indent" key={role._id}>
                 <h3>{role.title}:</h3>
                 {role.applicants.length === 0 ? (
                   <h4 className="project-application-indent ">
@@ -186,6 +186,7 @@ class ProjectApplication extends React.Component {
                 ) : (
                   role.applicants.map((uid) => (
                     <WarppedApplyViewCard
+                      key={role._id + uid}
                       userId={uid}
                       role={role}
                       reload={reload}

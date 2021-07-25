@@ -216,37 +216,6 @@ export function createRole(projectId, title, callback) {
     });
 }
 
-export function updateRole(projectId, roleId, updateParams, callback) {
-  const patchReq = new Request("/api/role/", {
-    method: "PATCH",
-    headers: {
-      Accept: "application/json, text/plain, */*",
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      projectId: projectId,
-      _id: roleId,
-      ...updateParams,
-    }),
-  });
-
-  fetch(patchReq)
-    .then((res) => {
-      if (res.status === 200) {
-        res.json().then((body) => {
-          callback(body, true);
-        });
-      } else if (res.status >= 500) {
-        callback("Server error", false);
-      } else {
-        callback("Client error", false);
-      }
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-}
-
 export function deleteRole(projectId, roleId, callback) {
   const delReq = new Request("/api/role/", {
     method: "DELETE",
@@ -328,24 +297,59 @@ export function getProjectsUnderUser(userId, callback) {
 }
 
 export function acceptApplication(projectId, roleId, userId, callback) {
-  updateRole(projectId, roleId, { userId }, (res) => {
-    callback(res, true);
+  const patchReq = new Request("/api/accept-role/", {
+    method: "POST",
+    headers: {
+      Accept: "application/json, text/plain, */*",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      projectId: projectId,
+      _id: roleId,
+      acceptUserId: userId,
+    }),
   });
+
+  fetch(patchReq)
+    .then((res) => {
+      if (res.status === 200) {
+        callback(null, true);
+      } else if (res.status >= 500) {
+        callback("Server error", false);
+      } else {
+        callback("Client error", false);
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 }
 
-export function rejectApplication(
-  projectId,
-  roleId,
-  userId,
-  applicants,
-  callback
-) {
-  updateRole(
-    projectId,
-    roleId,
-    { applicants: applicants.filter((a) => a !== userId) },
-    (res) => {
-      callback(res, true);
-    }
-  );
+export function rejectApplication(projectId, roleId, userId, callback) {
+  const patchReq = new Request("/api/reject-role/", {
+    method: "POST",
+    headers: {
+      Accept: "application/json, text/plain, */*",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      projectId: projectId,
+      _id: roleId,
+      rejectUserId: userId,
+    }),
+  });
+
+  fetch(patchReq)
+    .then((res) => {
+      if (res.status === 200) {
+        callback(null, true);
+      } else if (res.status >= 500) {
+        callback("Server error", false);
+      } else {
+        callback("Client error", false);
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 }
