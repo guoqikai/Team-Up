@@ -93,7 +93,7 @@ function addUserToGroup(uid, gid) {
 }
 
 function removeUserFromGroup(uid, gid) {
-    return MessageGroup.findByIdAndUpdate(gid, {$pull: {members: uid}}, {new: true}).exec();
+    return MessageGroup.findByIdAndUpdate(gid, {$pull: {members: uid}}).exec();
 }
 
 function createGroup(name) {

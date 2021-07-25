@@ -162,18 +162,6 @@ export function editProject(projectId, updateParams, callback) {
     });
 }
 
-export function uploadProjectImage(projectId, imageForm, callback) {
-  uploadImage(imageForm, (imageUrl) => {
-    editProject(
-      projectId,
-      {
-        image: imageUrl,
-      },
-      callback
-    );
-  });
-}
-
 export function applyToRole(roleId, callback) {
   const postReq = new Request(`/api/apply-role/${roleId}`, {
     method: "POST",
@@ -266,18 +254,16 @@ export function deleteRole(projectId, roleId, callback) {
       Accept: "application/json, text/plain, */*",
       "Content-Type": "application/json",
     },
-    body: {
-      projectId: projectId,
+    body: JSON.stringify({
+      projectId,
       _id: roleId,
-    },
+    }),
   });
 
   fetch(delReq)
     .then((res) => {
       if (res.status === 200) {
-        res.json().then((body) => {
-          callback(body, true);
-        });
+        callback(null, true);
       } else if (res.status >= 500) {
         callback("Server error", false);
       } else {

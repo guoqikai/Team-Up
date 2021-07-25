@@ -1,4 +1,5 @@
 import React from "react";
+import { uploadImage } from "./../../../api/image-api";
 import { editProject } from "./../../../api/project-api";
 import "./styles.css";
 
@@ -15,20 +16,44 @@ class ProjectHeader extends React.Component {
 
   render() {
     const { projectDetail, projectId, editable, setProjectDetail } = this.props;
-    const { imageSrc, title, description, views, likes } = projectDetail;
+    const { image, title, description, views, likes } = projectDetail;
     return (
       <>
-        <h1 className="project-detail-header-title">{title}</h1>{" "}
+        <h1 className="project-detail-header-title">{title}</h1>
         <div className="project-detail-header-info">
           {views} views, {likes} likes
         </div>
         <div className="project-detail-header-body">
           <div className="project-detail-header-image-container">
             <img
-              src={imageSrc || imageDefaultSrc}
+              src={image || imageDefaultSrc}
               alt="not_found"
               className="project-detail-header-image"
-            />{" "}
+            />
+            {editable && (
+              <div>
+                <label
+                  for="project-pic-input"
+                  className="project-detail-header-button link-button"
+                >
+                  change image
+                </label>
+                <input
+                  type="file"
+                  id="project-pic-input"
+                  accept="image/*"
+                  onChange={(e) => {
+                    const imgData = new FormData();
+                    imgData.set("image", e.target.files[0]);
+                    uploadImage(imgData, (image) =>
+                      editProject(projectId, { image }, () =>
+                        setProjectDetail({ ...projectDetail, image })
+                      )
+                    );
+                  }}
+                />
+              </div>
+            )}
           </div>
 
           <div className="project-detail-header-desc-container">
@@ -42,14 +67,14 @@ class ProjectHeader extends React.Component {
                 />
                 <div>
                   <span
-                    className="project-detail-header-button"
+                    className="link-button"
                     onClick={() =>
                       editProject(
                         projectId,
                         { description: this.state.newDesc },
-                        (newDetail) => {
+                        () => {
+                          setProjectDetail({...projectDetail, description: this.state.newDesc });
                           this.setState({ editDesc: false });
-                          setProjectDetail(newDetail);
                         }
                       )
                     }
@@ -57,7 +82,7 @@ class ProjectHeader extends React.Component {
                     save
                   </span>
                   <span
-                    className="project-detail-header-button"
+                    className="project-detail-header-button link-button"
                     onClick={() =>
                       this.setState({ editDesc: false, newDesc: description })
                     }
@@ -71,7 +96,7 @@ class ProjectHeader extends React.Component {
                 {description || "This project has no description..."}{" "}
                 {editable && (
                   <span
-                    className="project-detail-header-button"
+                    className="project-detail-header-button link-button"
                     onClick={() => this.setState({ editDesc: true })}
                   >
                     edit

@@ -1,31 +1,24 @@
 import React from "react";
 import "./../../../App.css";
 import "./styles.css";
-import uuid from "uuid";
 
 import { createProject, createRole } from "./../../../api/project-api";
 import { getCurrentUserInfo } from "./../../../api/login-api";
-import FetchWrapper from "./../../fetchWrapper"
+import FetchWrapper from "./../../fetchWrapper";
 
 class CreateProject extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      projectTitle: "",
-      description: "",
-      previewSrc: null,
-      file: null,
-      openPositions: [],
-      createGroup: false
-    };
-    this.handleImgChange = this.handleImgChange.bind(this);
-    this.handleNameChange = this.handleNameChange.bind(this);
-    this.handleDescChange = this.handleDescChange.bind(this);
-  }
+  state = {
+    projectTitle: "",
+    description: "",
+    previewSrc: null,
+    file: null,
+    openPositions: [],
+    createGroup: false,
+  };
 
   execProjectCreate() {
-    if (this.state.projectTitle === "") window.alert("Project name cannot be empty!")
+    if (this.state.projectTitle === "")
+      window.alert("Project name cannot be empty!");
     const imageFormData = new FormData();
     if (this.state.file) {
       imageFormData.append("image", this.state.file);
@@ -37,7 +30,7 @@ class CreateProject extends React.Component {
       imageFormData,
       (project) => {
         for (let i = 0; i < this.state.openPositions.length; i++) {
-          createRole(project._id, this.state.openPositions[i], () => { });
+          createRole(project._id, this.state.openPositions[i], () => {});
         }
         this.props.history.push("/");
       }
@@ -54,30 +47,7 @@ class CreateProject extends React.Component {
     }
   }
 
-  handleNameChange(e) {
-    e.preventDefault();
-    this.setState({ projectTitle: e.target.value });
-  }
-
-  handleDescChange(e) {
-    e.preventDefault();
-    this.setState({ description: e.target.value });
-  }
-
-  handleCreateGroup(e) {
-    this.setState({ createGroup: e.target.checked});
-  }
-
-  handleImgChange(e) {
-    e.preventDefault();
-    this.setState({
-      previewSrc: URL.createObjectURL(e.target.files[0]),
-      file: e.target.files[0],
-    });
-  }
-
   render() {
-
     return (
       <div>
         <div className="create-project-window">
@@ -85,64 +55,91 @@ class CreateProject extends React.Component {
             <input
               className="create-project-name"
               placeholder="Project Name"
-              onChange={this.handleNameChange}
+              onChange={(e) => this.setState({ projectTitle: e.target.value })}
             />
           </div>
           <div className="create-project-contents">
             <textarea
               placeholder="Enter you description here"
               className="create-project-description"
-              onChange={this.handleDescChange}
+              onChange={(e) => this.setState({ description: e.target.value })}
             ></textarea>
           </div>
           <div className="create-project-team-image">
             <div className="create-proejct-image">
-            <span>Project Image:</span>
-            <input type="file" accept="image/*" onChange={this.handleImgChange} />
+              <span>Project Image:</span>
+              <input
+                type="file"
+                accept="image/*"
+                onChange={(e) =>
+                  this.setState({
+                    previewSrc: URL.createObjectURL(e.target.files[0]),
+                    file: e.target.files[0],
+                  })
+                }
+              />
               <div>
                 <img
                   className="create-project-image-preview"
-                  src={this.state.previewSrc ? this.state.previewSrc : require("../../../static/project-default.jpg")}
+                  src={
+                    this.state.previewSrc
+                      ? this.state.previewSrc
+                      : require("../../../static/project-default.jpg")
+                  }
                 />
               </div>
             </div>
             <div className="create-project-create-positions">
-              <div>Open Positions</div>
+              <div>Open Positions:</div>
               <input
                 className="create-project-input-positions"
                 type="text"
-                placeholder="Enter a required position then press enter"
+                placeholder="Enter a position then press enter"
                 onKeyDown={this.addNewPosition.bind(this)}
               />
               <div className="create-project-positions">
-              {this.state.openPositions.map((position) => (
-                <div className="create-project-curr-required-positions-elements"
-                key={uuid.v4()}>
-                  {position}
-                </div>
-              ))}
+                {this.state.openPositions.map((position, ind) => (
+                  <div
+                    className="create-project-curr-required-positions-elements"
+                    key={ind}
+                  >
+                    {position}
+                    <span className="link-button create-proejct-delete" onClick={() => {
+                      this.setState({openPositions: this.state.openPositions.filter((_, i) => i !== ind)});
+                    }}>
+                      delete
+                    </span>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
           <div>
-            <input type="checkbox" id="group" onChange={this.handleCreateGroup.bind(this)}></input>
-            <label for="group"> create chat group for this project </label>
+            <input
+              type="checkbox"
+              id="group"
+              onChange={(e) => this.setState({ createGroup: e.target.checked })}
+            ></input>
+            <label for="group"> create a chat group for this project </label>
           </div>
           <button
             className="create-project-button button-common"
             onClick={this.execProjectCreate.bind(this)}
           >
             Create Project
-            </button>
+          </button>
         </div>
       </div>
     );
   }
 }
 
-function  wrappedCreateProject({}) {
-  return <FetchWrapper fetchData={getCurrentUserInfo} private={true}><CreateProject/></FetchWrapper>;
+function wrappedCreateProject({}) {
+  return (
+    <FetchWrapper fetchData={getCurrentUserInfo} private={true}>
+      <CreateProject />
+    </FetchWrapper>
+  );
 }
-
 
 export default wrappedCreateProject;

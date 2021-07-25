@@ -31,11 +31,10 @@
 }
 
 .project-detail-header-button {
-    cursor: pointer;
-    color: #545cb6;
     margin-left: 8px;
-    font-size: 14px;
 }
-.project-detail-header-button:hover {
-    text-decoration: underline;
+
+
+#project-pic-input {
+    width: 0px;
 }

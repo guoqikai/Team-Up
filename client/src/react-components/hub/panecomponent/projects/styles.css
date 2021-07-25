@@ -23,7 +23,7 @@
   text-overflow: ellipsis;
   overflow: hidden;
   width: 57%;
-  height: 22px;
+  height: 27px;
   margin-top: 16px;
   margin-left: 20px;
   font-weight: bold;
@@ -33,7 +33,7 @@
 #project-pane-like-views {
   display: inline-block;
   position: absolute;
-  margin-top: 38px;
+  margin-top: 40px;
   margin-left: 20px;
   font-size: 11px;
   color: gray;

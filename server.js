@@ -410,10 +410,14 @@ app.patch("/api/project/:id", authenticate, (req, res) => {
     return res.status(400).send();
   }
   const uid = req.user.isAdmin ? null : req.user._id;
-  updateProject(projectId, uid, req.body)
+  const update = req.body;
+  updateProject(projectId, uid, update)
     .then((result) => {
       if (!result) res.status(400).send();
-      else res.send(result);
+      else {
+        if (update.image && result.image) deleteImage(result.image);
+        res.send(result);
+      }
     })
     .catch((error) => {
       console.log(error);
@@ -638,17 +642,19 @@ app.delete("/api/role", authenticate, (req, res) => {
     .then((project) => {
       if (
         !project ||
-        (req.user._id !== req.body.userId && !project.owner.equals(req.user._id))
+        (req.user._id !== req.body.userId &&
+          !project.owner.equals(req.user._id) &&
+          !project.admins.includes(req.user._id))
       )
         return res.status(403).send();
-      deleteRole({ _id: req.body._id }).then((role) => {
+      deleteRole({ _id: req.body._id, projectId: project._id }).then((role) => {
         if (project.group) {
-          findRoles({ userId: role.userId, projectId: project._id });
-          then((roles) => {
+          findRoles({ userId: role.userId, projectId: req.body.projectId })
+          .then((roles) => {
             if (
               roles.length === 0 &&
               project.owner !== role.userId &&
-              !project.admin.includes(role.userId)
+              !project.admins.includes(role.userId)
             ) {
               return removeUserFromGroup(role.userId, project.group);
             }
@@ -724,7 +730,6 @@ app.get("/api/skill", (req, res) => {
 });
 
 app.post("/api/image", multipartMiddleware, (req, res) => {
-  console.log(req.files.image)
   uploadImage(req.files.image.path)
     .then((result) => {
       res.send({ url: result });

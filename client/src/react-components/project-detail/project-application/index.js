@@ -6,6 +6,7 @@ import {
   rejectApplication,
   applyToRole,
   createRole,
+  deleteRole,
 } from "./../../../api/project-api";
 
 import FetchWrapper from "./../../fetchWrapper";
@@ -24,7 +25,7 @@ function mergeRoles(roles) {
   return merged;
 }
 
-function ApplyCard({ userId, role, reload }) {
+function ApplyCard({ projectId, userId, role, reload, editable }) {
   const canApply = !role.applicants.includes(userId);
   return (
     <div className="project-application-apply-role">
@@ -45,6 +46,16 @@ function ApplyCard({ userId, role, reload }) {
           {canApply ? "Apply" : "Applied"}
         </button>
       )}
+      {editable && (
+        <button
+          className={"project-application-button button-common"}
+          onClick={() => {
+            deleteRole(projectId, role._id, () => reload());
+          }}
+        >
+          Delete
+        </button>
+      )}
     </div>
   );
 }
@@ -58,7 +69,12 @@ function ApplyViewCard({ data, role, reload }) {
         alt="not foound"
         className="project-application-profile-pic"
       />
-      <Link to={`/user-detail/${uid}`}>{username}</Link>{" "}
+      <Link
+        className="project-application-view-link"
+        to={`/user-detail/${uid}`}
+      >
+        {username}
+      </Link>{" "}
       <button
         className="button-common project-application-button "
         onClick={() =>
@@ -105,7 +121,7 @@ class ProjectApplication extends React.Component {
         <h2>Team Members: </h2>
 
         {Object.keys(filledRoles).length == 0 ? (
-          <h3>No team memebr yet.</h3>
+          <h3 className="project-application-indent ">No team memebr yet.</h3>
         ) : (
           <div className="project-application-role">
             {Object.keys(filledRoles).map((uid) => (
@@ -121,6 +137,8 @@ class ProjectApplication extends React.Component {
           {editable && (
             <div className="project-application-add-role">
               <input
+                className="project-application-add-role-input"
+                placeholder="Enter role here..."
                 onChange={(e) =>
                   this.setState({ newTitleName: e.target.value })
                 }
@@ -141,20 +159,30 @@ class ProjectApplication extends React.Component {
           )}
           {openRoles.length > 0 ? (
             openRoles.map((role) => (
-              <ApplyCard userId={userId} role={role} reload={reload} />
+              <ApplyCard
+                projectId={projectId}
+                userId={userId}
+                role={role}
+                reload={reload}
+                editable={editable}
+              />
             ))
           ) : (
-            <h3>All roles are filled.</h3>
+            <h3 className="project-application-indent">
+              All roles are filled.
+            </h3>
           )}
         </div>
         {editable && (
           <>
             <h2>Applications:</h2>
             {openRoles.map((role) => (
-              <div className="project-application-view-container">
+              <div className="project-application-indent">
                 <h3>{role.title}:</h3>
                 {role.applicants.length === 0 ? (
-                  <h4>No applicant yet.</h4>
+                  <h4 className="project-application-indent ">
+                    No applicant yet.
+                  </h4>
                 ) : (
                   role.applicants.map((uid) => (
                     <WarppedApplyViewCard

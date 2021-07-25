@@ -18,7 +18,7 @@ function updateProject(pid, uid, update) {
       ? { _id: pid, owner: uid }
       : { _id: pid, $or: [{ owner: uid }, { admin: uid }] }
     : { _id: pid };
-  return Project.findOneAndUpdate(cond, update, { new: true }).exec();
+  return Project.findOneAndUpdate(cond, update).exec();
 }
 
 function deleteProject(pid, uid) {

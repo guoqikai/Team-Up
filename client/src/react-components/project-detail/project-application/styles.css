@@ -11,6 +11,10 @@
   margin-bottom: 10px;
 }
 
+.project-application-add-role-input {
+  height: 18px;
+}
+
 .project-application-apply-role {
   margin-bottom: 10px;
   margin-left: 20px;
@@ -18,14 +22,16 @@
 
 .project-application-button {
   margin-left: 6px;
-  height: 20px;
+  padding: 4px;
+  font-size: 12px;
+  font-weight: bold;
 }
 
 .project-application-role-applied {
   color: gray;
 }
 
-.project-application-view-container {
+.project-application-indent {
   margin-left: 20px;
 }
 
@@ -36,9 +42,14 @@
   margin-bottom: 20px;
 }
 
+.project-application-view-link {
+  margin-right: 7px;
+}
+
+
 .project-application-profile-pic {
   border-radius: 50%;
   height: 100%;
   margin-left: 20px;
-  margin-right: 10px;
+  margin-right: 15px;
 }

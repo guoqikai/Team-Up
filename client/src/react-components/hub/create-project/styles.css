@@ -23,7 +23,6 @@
   margin-top: 40px;
 }
 
-
 .create-project-name {
   width: 700px;
   height: 34px;
@@ -51,11 +50,13 @@
 
 .create-project-positions {
   display: inline-block;
+  margin-top: 5px;
   width: 354px;
-  height: 290px;
-  overflow:auto;
+  height: 285px;
+  overflow: auto;
   position: relative;
-  background-color: rgb(192, 192, 192);
+  background-color: rgba(195, 195, 195);
+  border: 1px solid gray;
 }
 
 .create-project-input-positions {
@@ -64,37 +65,32 @@
   height: 30px;
 }
 
-.add-teammates {
-  width: 300px;
-  height: 35px;
-  font-size: 25px;
-  font-weight: bold;
-  letter-spacing: normal;
-  text-align: left;
-  margin-left: 117px;
-  margin-top: 52px;
-  color: #707070;
+.create-proejct-delete {
+  padding: 5px;
+  float: right;
 }
 
+
 .create-project-curr-required-positions-elements {
-  font-size: 25px;
-  letter-spacing: normal;
+  font-size: 20px;
+  padding: 5px;
   text-align: center;
-  background-color: #ffffff;
-  border: 1px solid #3f3f3f;
-  color: #3f3f3f;
+  background-color: white;
+  border-bottom: 1px solid gray;
 }
 
 .create-project-image-preview {
   width: 300px;
   height: 300px;
   object-fit: cover;
-  border: solid 1px #707070;
+  border: solid 1px gray;
 }
 
 .create-project-button {
   margin-top: 20px;
-  font-size: 40px;
+  font-size: 20px;
+  font-weight: bold;
+  padding: 10px;
   width: 700px;
   margin-bottom: 40px;
 }
