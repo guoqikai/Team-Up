@@ -20,7 +20,7 @@ class PaneManager extends React.Component {
   handleScroll() {
     const wrappedElement = document.getElementById("pane-s");
     const bottom =
-      wrappedElement.getBoundingClientRect().bottom <= window.innerHeight + 1;
+      wrappedElement.getBoundingClientRect().bottom <= window.innerHeight + 10;
     if (bottom && !this.state.loading)
       this.setState({loading:true},
       loadMataData(
