@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const ObjectId = require("mongodb").ObjectId;
 
 const SkillSchema = mongoose.Schema({
   title: {
@@ -7,7 +8,7 @@ const SkillSchema = mongoose.Schema({
   },
   image: String,
   relevantUsers: {
-    type: [mongoose.ObjectId],
+    type: [ObjectId],
     default: [],
     required: true
   },

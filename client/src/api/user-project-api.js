@@ -1,4 +1,4 @@
-import { loadMessages } from "./message-api"
+import { loadMessages } from "./message-api";
 
 export function getCurrentUserProjectInfo(callback) {
   const request = new Request("/api/my-project", {
@@ -33,10 +33,14 @@ export function exitProject(id, callback) {
     },
   });
 
-  fetch(request).then(() => {
-    loadMessages();
-    callback();
-  });
+  fetch(request)
+    .then(() => {
+      loadMessages();
+      callback();
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 }
 
 export function deleteProject(id, callback) {
@@ -48,8 +52,12 @@ export function deleteProject(id, callback) {
     },
   });
 
-  fetch(request).then(() => {
-    loadMessages();
-    callback();
-  });
+  fetch(request)
+    .then(() => {
+      loadMessages();
+      callback();
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 }

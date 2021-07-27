@@ -7,12 +7,22 @@ function createSkill(title, image, group, description) {
     title: title,
     image: image,
     group: group,
-    description: description
+    description: description,
   }).save();
 }
 
 function joinSkill(uid, sid) {
-  return Skill.findOneAndUpdate({_id: sid, relevantUsers: {$ne :uid}}, {$push: {relevantUsers: uid}}).exec();
+  return Skill.findOneAndUpdate(
+    { _id: sid, relevantUsers: { $ne: uid } },
+    { $push: { relevantUsers: uid } }
+  ).exec();
+}
+
+function leaveSkill(uid, sid) {
+  return Skill.findOneAndUpdate(
+    { _id: sid, relevantUsers: uid },
+    { $pull: { relevantUsers: uid } }
+  ).exec();
 }
 
 function updateSkill(id, update) {
@@ -27,11 +37,11 @@ function findSkills(cond, options) {
   return Skill.find(cond, null, options).exec();
 }
 
-
 module.exports = {
   createSkill,
   joinSkill,
   updateSkill,
+  leaveSkill,
   deleteSkill,
-  findSkills
-}
+  findSkills,
+};

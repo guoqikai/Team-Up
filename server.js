@@ -19,7 +19,6 @@ mongoose
 
 const session = require("express-session");
 const bodyParser = require("body-parser");
-const { ObjectId } = require("mongodb");
 const multipart = require("connect-multiparty");
 const multipartMiddleware = multipart();
 
@@ -66,7 +65,7 @@ const {
 const {
   createSkill,
   joinSkill,
-  updateSkill,
+  leaveSkill,
   deleteSkill,
   findSkills,
 } = require("./skill-service");
@@ -128,7 +127,6 @@ const getCurrentUserInfo = (req, res, next) => {
       next();
     },
     () => {
-      req.user = {};
       next();
     }
   );
@@ -226,7 +224,6 @@ app.get("/api/user", (req, res) => {
   const search = req.query.search;
   let query;
   if (id) {
-    if (!ObjectId.isValid(id)) return res.status(400).send();
     query = findUserById(id);
   } else if (search) query = findUsers({ $text: { $search: search } });
   else query = getRandomUsers(PAGE_SIZE);
@@ -243,7 +240,6 @@ app.get("/api/user", (req, res) => {
 
 app.get("/api/user-detail:id", (req, res) => {
   const id = req.query.id;
-  if (!ObjectId.isValid(id)) return res.status(400).send();
   findUserById({ username: username }).then((user) => {
     if (!user) return res.status(404).send;
   });
@@ -281,9 +277,7 @@ app.delete("/api/user/:id", authenticate, (req, res) => {
 
 app.get("/api/project/:id", (req, res) => {
   const projectId = req.params.id;
-  if (!ObjectId.isValid(projectId)) {
-    return res.status(400).send();
-  }
+
   return findProjectById(projectId)
     .then((project) => {
       incrementViews(projectId);
@@ -297,14 +291,12 @@ app.get("/api/project/", getCurrentUserInfo, (req, res) => {
     const queryUserId = req.query.userId;
     findRoles({ userId: queryUserId })
       .then((role) => {
-        const projIds = role.map((role) =>
-          mongoose.Types.ObjectId(role.projectId)
-        );
+        const projIds = role.map((role) => role.projectId);
         return findProjects({
           $or: [
             { _id: { $in: projIds } },
             { owner: queryUserId },
-            { admin: mongoose.Types.ObjectId(queryUserId) },
+            { admin: queryUserId },
           ],
         });
       })
@@ -407,9 +399,7 @@ app.post("/api/project", authenticate, (req, res) => {
 
 app.patch("/api/project/:id", authenticate, (req, res) => {
   const projectId = req.params.id;
-  if (!ObjectId.isValid(projectId)) {
-    return res.status(400).send();
-  }
+
   const uid = req.user.isAdmin ? null : req.user._id;
   const update = req.body;
   updateProject(projectId, uid, update)
@@ -428,11 +418,8 @@ app.patch("/api/project/:id", authenticate, (req, res) => {
 
 app.delete("/api/project/:id", authenticate, (req, res) => {
   const projectId = req.params.id;
-  if (!ObjectId.isValid(projectId)) {
-    return res.status(400).send();
-  }
   const uid = req.user.isAdmin ? null : req.user._id;
-  deleteProject(ObjectId(projectId), uid)
+  deleteProject(projectId, uid)
     .then((result) => {
       if (!result) return res.status(403).send();
       deleteProjectRoles(projectId);
@@ -448,9 +435,6 @@ app.delete("/api/project/:id", authenticate, (req, res) => {
 
 app.delete("/api/project-member/:id", authenticate, (req, res) => {
   const projectId = req.params.id;
-  if (!ObjectId.isValid(projectId)) {
-    return res.status(400).send();
-  }
   findProjectById(projectId)
     .then((project) => {
       if (project && project.group)
@@ -466,9 +450,6 @@ app.delete("/api/project-member/:id", authenticate, (req, res) => {
 
 app.patch("/api/project/increment-likes/:id", authenticate, (req, res) => {
   const projectId = req.params.id;
-  if (!ObjectId.isValid(projectId)) {
-    return res.status(400).send();
-  }
   if (req.session.liked && req.session.liked.includes(projectId)) {
     return res.status(403).send();
   }
@@ -486,9 +467,7 @@ app.patch("/api/project/increment-likes/:id", authenticate, (req, res) => {
 
 app.post("/api/apply-role/:id", authenticate, (req, res) => {
   const roleId = req.params.id;
-  if (!ObjectId.isValid(roleId)) {
-    return res.status(400).send();
-  }
+
   applyToRole(roleId, req.user._id)
     .then((result) => {
       if (!result) return res.status(403).send();
@@ -502,9 +481,7 @@ app.post("/api/apply-role/:id", authenticate, (req, res) => {
 
 app.get("/api/project-roles/:id", (req, res) => {
   const projectId = req.params.id;
-  if (!ObjectId.isValid(projectId)) {
-    return res.status(400).send();
-  }
+
   findRoles({ projectId: projectId })
     .then((roles) => {
       res.send(roles);
@@ -517,15 +494,13 @@ app.get("/api/project-roles/:id", (req, res) => {
 
 app.get("/api/project/can-edit/:id", getCurrentUserInfo, (req, res) => {
   const projectId = req.params.id;
-  if (!ObjectId.isValid(projectId)) {
-    return res.status(400).send();
-  }
-  if (!req.session || !req.session.user) {
+
+  if (!req.user) {
     res.status(403).send("Unauthorized");
   } else {
     findProjectById(projectId)
       .then((project) =>
-        res.send({ canEdit: canEditProject(project, req.session.user) })
+        res.send({ canEdit: canEditProject(project, req.user._id) })
       )
       .catch((error) => {
         console.log(error);
@@ -536,23 +511,13 @@ app.get("/api/project/can-edit/:id", getCurrentUserInfo, (req, res) => {
 
 app.get("/api/user/can-edit/:id", getCurrentUserInfo, (req, res) => {
   const userIdToEdit = req.params.id;
-  if (!ObjectId.isValid(userIdToEdit)) {
-    return res.status(400).send();
-  }
 
-  if (!req.session || !req.session.user) {
+  if (!req.user) {
     res.send({ canEdit: false });
   } else {
-    findUserById(req.session.user)
-      .then((user) => {
-        res.send({
-          canEdit: (user && user.isAdmin) || user._id.equals(userIdToEdit),
-        });
-      })
-      .catch((error) => {
-        console.log(error);
-        res.status(500).send();
-      });
+    res.send({
+      canEdit: (user && user.isAdmin) || user._id.equals(userIdToEdit),
+    });
   }
 });
 
@@ -704,9 +669,22 @@ app.post("/api/skill", authenticate, (req, res) => {
 
 app.post("/api/join-skill/:id", authenticate, (req, res) => {
   const skillId = req.params.id;
-  if (!ObjectId.isValid(skillId)) return res.status(400).send();
   joinSkill(req.user._id, skillId)
-    .then((skill) => addUserToGroup(req.user._id, skill.group))
+    .then((skill) => {
+      if (skill)
+        addUserToGroup(req.user._id, skill.group).then(() => res.send());
+      else res.status(400).send();
+    })
+    .catch((error) => {
+      console.log(error);
+      res.status(500).send();
+    });
+});
+
+app.post("/api/leave-skill/:id", authenticate, (req, res) => {
+  const skillId = req.params.id;
+  leaveSkill(req.user._id, skillId)
+    .then((skill) => removeUserFromGroup(req.user._id, skill.group))
     .then(() => res.send())
     .catch((error) => {
       console.log(error);
@@ -714,10 +692,10 @@ app.post("/api/join-skill/:id", authenticate, (req, res) => {
     });
 });
 
-app.delete("/api/join-skill/:id", authenticate, (req, res) => {
+app.delete("/api/skill/:id", authenticate, (req, res) => {
   if (!req.user.isAdmin) return res.status(403).send();
   const skillId = req.params.id;
-  if (!ObjectId.isValid(projectId)) return res.status(400).send();
+
   deleteSkill(skillId)
     .then((skill) => deleteGroup(skill.group))
     .then(() => res.send())
@@ -727,7 +705,7 @@ app.delete("/api/join-skill/:id", authenticate, (req, res) => {
     });
 });
 
-app.get("/api/skill", (req, res) => {
+app.get("/api/skill", getCurrentUserInfo, (req, res) => {
   const page = req.query.page ? req.query.page : 0;
   const search = req.query.search
     ? { $text: { $search: req.query.search } }
@@ -737,7 +715,17 @@ app.get("/api/skill", (req, res) => {
     limit: PAGE_SIZE,
     sort: { relevantUsers: 1 },
   })
-    .then((skills) => res.send(skills))
+    .then((skills) =>
+      res.send(
+        skills.map((skill) => ({
+          _id: skill._id,
+          title: skill.title,
+          image: skill.image,
+          description: skill.description,
+          joined: req.user ? skill.relevantUsers.includes(req.user._id) : false,
+        }))
+      )
+    )
     .catch((error) => {
       console.log(error);
       res.status(500).send();

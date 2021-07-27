@@ -10,7 +10,7 @@ class PaneManager extends React.Component {
       selected: "Projects",
       paneData: [],
       showPopUp: false,
-      clickDetail: null,
+      popUpInd: 0,
       currentPageNum: 0,
     };
     this.handleScroll = this.handleScroll.bind(this);
@@ -43,14 +43,6 @@ class PaneManager extends React.Component {
 
   componentWillUnmount() {
     document.removeEventListener("scroll", this.handleScroll);
-  }
-
-  openPopup(detail) {
-    this.setState({ showPopUp: true, clickDetail: detail });
-  }
-
-  closePopup() {
-    this.setState({ showPopUp: false });
   }
 
   toggleSelectedPane(event) {
@@ -112,17 +104,28 @@ class PaneManager extends React.Component {
           />
         </div>
         <div className={"pane-" + this.state.selected} id="pane-s">
-          {this.state.paneData.map((data) =>
-            createPaneComponent(
-              this.state.selected,
-              data,
-              this.openPopup.bind(this)
+          {this.state.paneData.map((data, ind) =>
+            createPaneComponent(this.state.selected, data, () =>
+              this.setState({ showPopUp: true, popUpInd: ind })
             )
           )}
         </div>
         {this.state.showPopUp
-          ? createPopup(this.state.selected, this.state.clickDetail, () =>
-              this.closePopup()
+          ? createPopup(
+              this.state.selected,
+              this.state.paneData[this.state.popUpInd],
+              (action) => {
+                if (!action) this.setState({ showPopUp: false });
+                else if (action.type === "updateData") {
+                  this.setState({
+                    paneData: this.state.paneData.map((data, ind) => {
+                      if (ind === this.state.popUpInd) 
+                        return {...data, ...action.payLoad};
+                      return data;
+                    }),
+                  });
+                } else this.setState({ showPopUp: false });
+              }
             )
           : null}
       </div>

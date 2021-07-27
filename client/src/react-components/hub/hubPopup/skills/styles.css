@@ -57,12 +57,5 @@
 }
 
 .skills-popup-button-joined {
-  position: relative;
-  bottom: 135px;
-  left: 20px;
-  width: 560px;
-  height: 35px;
-  font-size: 15px;
-  font-weight: bold;
-  background-color: #545cb6;
+  background-color: #8b8da5;
 }
