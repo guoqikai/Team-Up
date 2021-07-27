@@ -286,7 +286,7 @@ app.get("/api/project/:id", (req, res) => {
     .catch((error) => res.status(500).send());
 });
 
-app.get("/api/project/", getCurrentUserInfo, (req, res) => {
+app.get("/api/project/", (req, res) => {
   if (req.query.userId) {
     const queryUserId = req.query.userId;
     findRoles({ userId: queryUserId })
