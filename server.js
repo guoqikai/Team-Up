@@ -1,5 +1,3 @@
-"use strict";
-
 const express = require("express");
 const http = require("http");
 const mongoose = require("mongoose");
@@ -74,7 +72,7 @@ mongoose.set("useFindAndModify", false);
 
 const app = express();
 const sessionParser = session({
-  secret: "teamUp-csc309",
+  secret: "teamUp",
   resave: false,
   saveUninitialized: false,
   cookie: {
