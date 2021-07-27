@@ -10,6 +10,7 @@ class PaneManager extends React.Component {
       selected: "Projects",
       paneData: [],
       showPopUp: false,
+      loading: false,
       popUpInd: 0,
       currentPageNum: 0,
     };
@@ -19,19 +20,20 @@ class PaneManager extends React.Component {
   handleScroll() {
     const wrappedElement = document.getElementById("pane-s");
     const bottom =
-      wrappedElement.getBoundingClientRect().bottom <= window.innerHeight + 200;
-    if (bottom) {
+      wrappedElement.getBoundingClientRect().bottom <= window.innerHeight + 1;
+    if (bottom && !this.state.loading)
+      this.setState({loading:true},
       loadMataData(
         this.state.selected,
         this.state.currentPageNum + 1,
         null,
         (data) =>
           this.setState({
+            loading: false,
             paneData: this.state.paneData.concat(data),
-            currentPageNum: this.state.currentPageNum + 1,
+            currentPageNum: this.state.currentPageNum + (data.length !== 0 ? 1 : 0)
           })
-      );
-    }
+      ));
   }
 
   componentDidMount() {
@@ -46,9 +48,9 @@ class PaneManager extends React.Component {
   }
 
   toggleSelectedPane(event) {
-    const page = event.target.textContent;
-    this.setState({ selected: page, paneData: [] });
-    loadMataData(page, 0, null, (data) => this.setState({ paneData: data }));
+    const selected = event.target.textContent;
+    this.setState({ selected, paneData: [], currentPageNum: 0 });
+    loadMataData(selected, 0, null, (data) => this.setState({ paneData: data }));
   }
 
   handleSearch(event) {
