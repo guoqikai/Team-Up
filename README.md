@@ -30,7 +30,8 @@ Everyone in the community can see your project and apply for the roles now by cl
 Users can view their projects by clicking **My Projects** link button in the side bar. Owner of a project can delete the project; member of a project can exit the project.   
 <img src="./app-previews/my-projects.png"/>   
 
-Owner of a project can update the project information, including project image, add/delete open roles, accept/reject applications for roles. (add-delete-role) (accept-reject-role)
+Owner of a project can update the project information, including project image, add/delete open roles, accept/reject applications for roles. 
+<img src="./app-previews/add-delete-role.png" /> <img src="./app-previews/accept-reject-role.png" />   
 
 After an application is accepted, the user will be added as a member to the project, and the role will no longer be open. (updated-project)
 
