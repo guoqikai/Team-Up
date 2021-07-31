@@ -82,9 +82,9 @@ const sessionParser = session({
 });
 const PROJECT_PAGE_SIZE = 5;
 
-const SKILL_PAGE_SIZE =30;
+const SKILL_PAGE_SIZE = 30;
 
-const USER_PAGE_SIZE = 30
+const USER_PAGE_SIZE = 30;
 
 app.use(
   bodyParser.urlencoded({
@@ -485,9 +485,7 @@ app.get("/api/project-roles/:id", (req, res) => {
   const projectId = req.params.id;
 
   findRoles({ projectId: projectId })
-    .then((roles) => {
-      res.send(roles);
-    })
+    .then((roles) => res.send(roles))
     .catch((error) => {
       console.log(error);
       res.status(500).send();
@@ -645,7 +643,7 @@ app.delete("/api/role", authenticate, (req, res) => {
               })
               .catch((error) => console.log(error));
         })
-        .then(res.send());
+        .then(() => res.send());
     })
     .catch((error) => {
       console.log(error);
