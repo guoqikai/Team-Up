@@ -13,7 +13,7 @@ There are a lot of times that we have an interesting project idea but fails to f
 ## Navigate the App
 
 After landing on the main page of the application. Users can click **Log In/Sign Up** button to log in or create a new account.   
-<img src="./app-previews/main-page" />   
+<img src="./app-previews/main-page.png" />   
 
 Enter the information and sign up for an account. Users can return to the home page by clicking on the **Team-Up** logo in the side bar. (sign-up)
 
