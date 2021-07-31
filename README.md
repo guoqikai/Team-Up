@@ -55,5 +55,8 @@ Clicking on a skill channel card will open a popup with the description of the c
 <img src="./app-previews/skill-popup.png"/>   
 
 Clicking on the **Messages** link button will open the chat box with all the group chat and direct message of the user listed on the left.   
-<img src="./app-previews/group-chat.png"/> <img src="./app-previews/direct-message.png"/>
+<img src="./app-previews/group-chat.png"/> <img src="./app-previews/direct-message.png"/>   
+
+## How to Start The App Locally
+
 
