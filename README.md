@@ -15,9 +15,11 @@ There are a lot of times that we have an interesting project idea but fails to f
 After landing on the main page of the application. Users can click **Log In/Sign Up** button to log in or create a new account.   
 <img src="./app-previews/main-page.png" />   
 
-Enter the information and sign up for an account. Users can return to the home page by clicking on the **Team-Up** logo in the side bar. (sign-up)
+Enter the information and sign up for an account. Users can return to the home page by clicking on the **Team-Up** logo in the side bar.   
+<img src="./app-previews/sign-up.png" />   
 
-After logging into the account, users can update their profile, including the profile picture, through **My Profile** link button on the side bar. (my-profile)
+After logging into the account, users can update their profile, including the profile picture, through **My Profile** link button on the side bar.   
+<img src="./app-previews/my-profile.png" />
 
 To create a project, click on the **Create Project** link button in the side bar. Users can add project name, description, project image and open positions on the page. The option of creating a chat group for the project is also given. (create-project)
 
