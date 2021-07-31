@@ -81,7 +81,7 @@ function ApplyViewCard({ data, role, reload }) {
           acceptApplication(role.projectId, role._id, uid, () => reload())
         }
       >
-        Accpet
+        Accept
       </button>
       <button
         className="button-common project-application-button "
