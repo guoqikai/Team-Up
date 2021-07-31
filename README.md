@@ -59,4 +59,7 @@ Clicking on the **Messages** link button will open the chat box with all the gro
 
 ## How to Start The App Locally
 
-
+1. cd to the root folder
+2. run `npm run-script setup`
+3. run `npm run-script build-run`
+4. after server starts, visit `localhost:5000` 
