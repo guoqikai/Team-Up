@@ -21,11 +21,14 @@ Enter the information and sign up for an account. Users can return to the home p
 After logging into the account, users can update their profile, including the profile picture, through **My Profile** link button on the side bar.   
 <img src="./app-previews/my-profile.png" />
 
-To create a project, click on the **Create Project** link button in the side bar. Users can add project name, description, project image and open positions on the page. The option of creating a chat group for the project is also given. (create-project)
+To create a project, click on the **Create Project** link button in the side bar. Users can add project name, description, project image and open positions on the page. The option of creating a chat group for the project is also given.   
+<img src="./app-previews/create-project.png" />
 
-Everyone in the community can see your project and apply for the roles now by clicking on the project card in project list. In the popup, users can apply for one or multiple roles, like the project, and view project details. The project owner can also apply for roles. (project-popup)
+Everyone in the community can see your project and apply for the roles now by clicking on the project card in project list. In the popup, users can apply for one or multiple roles, like the project, and view project details. The project owner can also apply for roles.   
+<img src="./app-previews/project-popup.png" />   
 
-Users can view their projects by clicking **My Projects** link button in the side bar. Owner of a project can delete the project; member of a project can exit the project. (my-projects)
+Users can view their projects by clicking **My Projects** link button in the side bar. Owner of a project can delete the project; member of a project can exit the project.   
+<img src="./app-previews/my-projects.png"/>   
 
 Owner of a project can update the project information, including project image, add/delete open roles, accept/reject applications for roles. (add-delete-role) (accept-reject-role)
 
