@@ -80,7 +80,11 @@ const sessionParser = session({
     httpOnly: true,
   },
 });
-const PAGE_SIZE = 30;
+const PROJECT_PAGE_SIZE = 5;
+
+const SKILL_PAGE_SIZE =30;
+
+const USER_PAGE_SIZE = 30
 
 app.use(
   bodyParser.urlencoded({
@@ -224,7 +228,7 @@ app.get("/api/user", (req, res) => {
   if (id) {
     query = findUserById(id);
   } else if (search) query = findUsers({ $text: { $search: search } });
-  else query = getRandomUsers(PAGE_SIZE);
+  else query = getRandomUsers(USER_PAGE_SIZE);
   query
     .then((u) => {
       if (!u) return res.status(404).send();
@@ -313,8 +317,8 @@ app.get("/api/project/", (req, res) => {
       ? { $text: { $search: req.query.search } }
       : {};
     findProjects(search, {
-      skip: page * PAGE_SIZE,
-      limit: PAGE_SIZE,
+      skip: page * PROJECT_PAGE_SIZE,
+      limit: PROJECT_PAGE_SIZE,
       sort: { created: -1 },
     })
       .then((projects) => {
@@ -620,26 +624,28 @@ app.delete("/api/role", authenticate, (req, res) => {
         req.user._id !== req.body.userId
       )
         return res.status(403).send();
-      deleteRole({
+      return deleteRole({
         _id: req.body._id,
         projectId: project._id,
         userId: req.body.userId,
-      }).then((role) => {
-        if (project.group) {
-          findRoles({ userId: role.userId, projectId: req.body.projectId })
-            .then((roles) => {
-              if (
-                roles.length === 0 &&
-                project.owner !== role.userId &&
-                !project.admins.includes(role.userId)
-              ) {
-                return removeUserFromGroup(role.userId, project.group);
-              }
+      })
+        .then((role) => {
+          if (project.group && role && role.userId)
+            return findRoles({
+              userId: role.userId,
+              projectId: req.body.projectId,
             })
-            .catch((error) => console.log(error));
-          res.send();
-        }
-      });
+              .then((roles) => {
+                if (
+                  roles.length === 0 &&
+                  !canEditProject(project, role.userId)
+                ) {
+                  return removeUserFromGroup(role.userId, project.group);
+                }
+              })
+              .catch((error) => console.log(error));
+        })
+        .then(res.send());
     })
     .catch((error) => {
       console.log(error);
@@ -709,8 +715,8 @@ app.get("/api/skill", getCurrentUserInfo, (req, res) => {
     ? { $text: { $search: req.query.search } }
     : {};
   findSkills(search, {
-    skip: page * PAGE_SIZE,
-    limit: PAGE_SIZE,
+    skip: page * SKILL_PAGE_SIZE,
+    limit: SKILL_PAGE_SIZE,
     sort: { relevantUsers: 1 },
   })
     .then((skills) =>
