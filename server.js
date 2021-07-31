@@ -69,6 +69,7 @@ const {
 } = require("./skill-service");
 
 mongoose.set("useFindAndModify", false);
+mongoose.set("useCreateIndex", true);
 
 const app = express();
 const sessionParser = session({
@@ -87,11 +88,11 @@ const SKILL_PAGE_SIZE = 30;
 const USER_PAGE_SIZE = 30;
 
 app.use(
-  bodyParser.urlencoded({
+  express.urlencoded({
     extended: true,
   })
 );
-app.use(bodyParser.json());
+app.use(express.json());
 app.use(sessionParser);
 
 app.use(express.static(__dirname + "/client/build"));
