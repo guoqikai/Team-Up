@@ -10,19 +10,16 @@ class PaneManager extends React.Component {
       selected: "Projects",
       paneData: [],
       showPopUp: false,
-      loading: false,
+      loading: true,
       popUpInd: 0,
       currentPageNum: 0,
     };
     this.handleScroll = this.handleScroll.bind(this);
   }
 
-  handleScroll() {
-    const wrappedElement = document.getElementById("pane-s");
-    const bottom =
-      wrappedElement.getBoundingClientRect().bottom <= window.innerHeight + 10;
-    if (bottom && !this.state.loading)
-      this.setState({loading:true},
+  loadMoreData() {
+    this.setState(
+      { loading: true },
       loadMataData(
         this.state.selected,
         this.state.currentPageNum + 1,
@@ -31,14 +28,24 @@ class PaneManager extends React.Component {
           this.setState({
             loading: false,
             paneData: this.state.paneData.concat(data),
-            currentPageNum: this.state.currentPageNum + (data.length !== 0 ? 1 : 0)
+            currentPageNum:
+              this.state.currentPageNum + (data.length !== 0 ? 1 : 0),
           })
-      ));
+      )
+    );
+  }
+
+  handleScroll() {
+    const wrappedElement = document.getElementById("pane-s");
+    const bottom =
+      wrappedElement.getBoundingClientRect().bottom <= window.innerHeight + 1;
+    if (bottom && !this.state.loading)
+      this.loadMoreData()
   }
 
   componentDidMount() {
     loadMataData("Projects", this.state.currentPageNum, null, (data) =>
-      this.setState({ paneData: data })
+      this.setState({ paneData: data, loading: false })
     );
     document.addEventListener("scroll", this.handleScroll);
   }
@@ -49,8 +56,10 @@ class PaneManager extends React.Component {
 
   toggleSelectedPane(event) {
     const selected = event.target.textContent;
-    this.setState({ selected, paneData: [], currentPageNum: 0 });
-    loadMataData(selected, 0, null, (data) => this.setState({ paneData: data }));
+    this.setState({ selected, paneData: [], currentPageNum: 0, loading:true });
+    loadMataData(selected, 0, null, (data) =>
+      this.setState({ paneData: data, loading:false })
+    );
   }
 
   handleSearch(event) {
@@ -65,12 +74,14 @@ class PaneManager extends React.Component {
   render() {
     return (
       <div className="windows">
-        <div>
+        <div className="main-navi">
           <ul>
             <li>
               <a
                 className={
-                  this.state.selected === "Projects" ? "link-selected" : "link"
+                  this.state.selected === "Projects"
+                    ? "main-link-selected"
+                    : "main-link"
                 }
                 onClick={this.toggleSelectedPane.bind(this)}
               >
@@ -80,7 +91,9 @@ class PaneManager extends React.Component {
             <li>
               <a
                 className={
-                  this.state.selected === "People" ? "link-selected" : "link"
+                  this.state.selected === "People"
+                    ? "main-link-selected"
+                    : "main-link"
                 }
                 onClick={this.toggleSelectedPane.bind(this)}
               >
@@ -90,7 +103,9 @@ class PaneManager extends React.Component {
             <li>
               <a
                 className={
-                  this.state.selected === "Skills" ? "link-selected" : "link"
+                  this.state.selected === "Skills"
+                    ? "main-link-selected"
+                    : "main-link"
                 }
                 onClick={this.toggleSelectedPane.bind(this)}
               >
@@ -101,17 +116,28 @@ class PaneManager extends React.Component {
           <input
             type="text"
             placeholder="Search.."
-            className="search"
+            className="main-search"
             onKeyDown={this.handleSearch.bind(this)}
           />
         </div>
-        <div className={"pane-" + this.state.selected} id="pane-s">
+        <div className={"pane-" + this.state.selected}>
           {this.state.paneData.map((data, ind) =>
             createPaneComponent(this.state.selected, data, () =>
               this.setState({ showPopUp: true, popUpInd: ind })
             )
           )}
         </div>
+        <div
+          className={
+            "link-button pane-load-button " +
+            (this.state.loading ? "pane-load-button-loading" : "")
+          }
+          id="pane-s"
+          onClick={() => this.loadMoreData()}
+        >
+          {this.state.loading ? "loading..." : "load more"}
+        </div>
+        
         {this.state.showPopUp
           ? createPopup(
               this.state.selected,
@@ -121,8 +147,8 @@ class PaneManager extends React.Component {
                 else if (action.type === "updateData") {
                   this.setState({
                     paneData: this.state.paneData.map((data, ind) => {
-                      if (ind === this.state.popUpInd) 
-                        return {...data, ...action.payLoad};
+                      if (ind === this.state.popUpInd)
+                        return { ...data, ...action.payLoad };
                       return data;
                     }),
                   });

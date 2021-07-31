@@ -63,14 +63,15 @@ class ProjectPopup extends React.Component {
             {detail.likes} likes &nbsp; | &nbsp; {detail.views} views &nbsp; |
             &nbsp;{" "}
             {
-              Array.from(detail.roles).filter(
-                (contributor) => !!contributor.userId
-              ).length
+              detail.roles
+                .map((contributor) => contributor.userId)
+                .filter((_id, ind, sel) => !!_id && sel.indexOf(_id) === ind)
+                .length
             }{" "}
             people are working on it
           </div>
           <div className="project-popup-team-view">
-            {Array.from(detail.roles).map((role, ind) => (
+            {detail.roles.map((role, ind) => (
               <TeamMember
                 name={role.user ? role.user.username : null}
                 icon={role.user ? role.user.picture : null}
