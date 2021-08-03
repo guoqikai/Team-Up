@@ -48,7 +48,7 @@ Clicking on a user card will open a popup that has options of talking to the use
 On the user profile page, the profile information and the projects enrolled by the user are displayed.   
 <img src="./app-previews/user-profile.png"/>   
 
-In the **Skills** section, the skill channels are listed in descending order of popularity.   
+In the **Skills** section, the skill channels are listed in descending order of popularity. If users want to discuss about certain topics or look for people with specific skills, they can join corresponding skill channels. 
 <img src="./app-previews/skills-page.png"/>   
 
 Clicking on a skill channel card will open a popup with the description of the channel and a button to join/leave the channel.   
@@ -63,3 +63,4 @@ Clicking on the **Messages** link button will open the chat box with all the gro
 2. run `npm run-script setup`
 3. run `npm run-script build-run`
 4. after server starts, visit `localhost:5000` 
+
